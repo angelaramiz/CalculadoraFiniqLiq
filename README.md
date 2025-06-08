@@ -26,11 +26,11 @@ CalculadoraFiniqLiq/
 - Salarios pendientes
 - Vacaciones no disfrutadas + Prima vacacional (25%)
 - Aguinaldo proporcional
-- Prima de antigüedad (12 días por año)
+- Prima de antigüedad (12 días por año - **solo aplica con más de 15 años de servicio**)
 
 ### Liquidación (Despido)
 - Todos los conceptos del finiquito +
-- **Indemnización constitucional** (3 meses + 20 días por año)
+- **Indemnización constitucional** (3 meses + 20 días por cada año completado + proporcional)
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -99,7 +99,25 @@ Esta calculadora proporciona estimaciones basadas en la normativa laboral mexica
 - **Salario mínimo general**: $248.93 MXN
 - **Prima vacacional**: 25% mínimo legal
 - **Aguinaldo**: 15 días mínimo legal
-- **Prima de antigüedad**: 12 días por año (tope 2 salarios mínimos)
+- **Prima de antigüedad**: 12 días por año (tope 2 salarios mínimos) - **Aplica solo con más de 15 años de servicio**
+
+## 📝 Correcciones Importantes
+
+### Prima de Antigüedad ✅
+- **Fecha**: Enero 2025
+- **Corrección**: Se modificó el cálculo para que la prima de antigüedad **solo se aplique cuando el trabajador tenga más de 15 años de servicio**, cumpliendo con el **Artículo 162 de la Ley Federal del Trabajo**.
+- **Impacto**: Cálculos más precisos conforme a la legislación mexicana.
+
+### Indemnización Constitucional ✅
+- **Fecha**: Junio 2025
+- **Corrección**: Se corrigió el cálculo de la indemnización para que los **20 días se paguen al completar cada año de servicio** más la parte proporcional del año en curso, cumpliendo con el **Artículo 50 de la Ley Federal del Trabajo**.
+- **Antes**: 3 meses + (20 días × años totales)
+- **Después**: 3 meses + (20 días × años completados) + (20 días × fracción del año actual)
+- **Ejemplos**: 
+  - 1 año exacto: 90 + 20 = 110 días
+  - 1.5 años: 90 + 20 + 10 = 120 días
+  - 2.25 años: 90 + 40 + 5 = 135 días
+- **Impacto**: Cálculo correcto desde el primer año completado.
 
 ---
 

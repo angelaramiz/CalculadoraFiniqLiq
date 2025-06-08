@@ -94,20 +94,38 @@ document.addEventListener('DOMContentLoaded', function() {
         // Proportional bonus (aguinaldo)
         const currentYearStart = new Date(endDate.getFullYear(), 0, 1);
         const daysWorkedCurrentYear = Math.ceil((endDate - currentYearStart) / (1000 * 60 * 60 * 24));
-        const proportionalBonus = (bonusDays * salary) * (daysWorkedCurrentYear / 365);
-
-        // Seniority premium (prima de antigüedad) - 12 días por año
+        const proportionalBonus = (bonusDays * salary) * (daysWorkedCurrentYear / 365);        // Seniority premium (prima de antigüedad) - 12 días por año
         const MINIMUM_WAGE = 248.93; // Salario mínimo general vigente
         const salaryCap = 2 * MINIMUM_WAGE; // Tope de dos salarios mínimos
         const salaryForSeniority = Math.min(salary, salaryCap);
-        // La prima de antigüedad se paga desde el primer año trabajado
-        const seniorityPremium = 12 * salaryForSeniority * totalYears;
-
-        // Severance pay (indemnización constitucional) - solo en caso de despido
+        // La prima de antigüedad solo se paga cuando el trabajador tiene MÁS de 15 años de servicio
+        const seniorityPremium = totalYears > 15 ? 12 * salaryForSeniority * totalYears : 0;        // Severance pay (indemnización constitucional) - solo en caso de despido
         let severancePay = 0;
-        if (terminationType === 'dismissal') {
-            // 3 meses de salario + 20 días por cada año trabajado
-            severancePay = (3 * 30 * salary) + (20 * salary * totalYears);
+        let basePay = 0;
+        let additionalDays = 0;
+        let severanceDetails = '';
+          if (terminationType === 'dismissal') {
+            // 3 meses de salario (siempre se pagan) + 20 días por cada año completado de servicio
+            basePay = 3 * 30 * salary; // 90 días base
+            
+            // Los 20 días se pagan al completar cada año de servicio
+            if (totalYears >= 1) {
+                // Se pagan 20 días por cada año completo de servicio
+                const completedYears = Math.floor(totalYears);
+                
+                // Más la parte proporcional del año en curso (si aplica)
+                const proportionalYear = totalYears - Math.floor(totalYears);
+                additionalDays = (completedYears * 20) + (proportionalYear * 20);
+                
+                severanceDetails = `(90 días base × $${salary.toFixed(2)}) + (${additionalDays.toFixed(2)} días por antigüedad × $${salary.toFixed(2)})`;
+            } else {
+                // Menos de 1 año: solo días base + proporcional
+                const proportionalYear = totalYears;
+                additionalDays = proportionalYear * 20;
+                severanceDetails = `(90 días base × $${salary.toFixed(2)}) + (${additionalDays.toFixed(2)} días proporcionales × $${salary.toFixed(2)})`;
+            }
+            
+            severancePay = basePay + (additionalDays * salary);
         }
 
         // Calculate total
@@ -137,11 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="detail-label">Prima de antigüedad:</span>
                 <span class="detail-value">12 días × $${salaryForSeniority.toFixed(2)} × ${totalYears.toFixed(2)} años = $${seniorityPremium.toFixed(2)}</span>
             </div>
-            ` : ''}
-            ${terminationType === 'dismissal' ? `
+            ` : ''}            ${terminationType === 'dismissal' ? `
             <div class="detail-row">
                 <span class="detail-label">Indemnización constitucional:</span>
-                <span class="detail-value">(90 días × $${salary.toFixed(2)}) + (20 días × $${salary.toFixed(2)} × ${totalYears.toFixed(2)} años) = $${severancePay.toFixed(2)}</span>
+                <span class="detail-value">${severanceDetails} = $${severancePay.toFixed(2)}</span>
             </div>
             ` : ''}
         `;
