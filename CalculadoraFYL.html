@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Finiquitos y Liquidaciones Laborales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calculator"></i> Calculadora de Finiquitos y Liquidaciones</h1>
+            <p>Calcula los montos correspondientes a finiquitos y liquidaciones laborales según la Ley Federal del Trabajo de México</p>
+        </header>
+        
+        <div class="calculator-container">
+            <section class="form-section">
+                <h2 class="section-title"><i class="fas fa-user-edit"></i> Datos del Empleado</h2>
+                
+                <div class="form-group">
+                    <label for="employeeName">Nombre completo del empleado</label>
+                    <input type="text" id="employeeName" placeholder="Ingrese el nombre completo">
+                </div>
+                
+                <div class="date-group">
+                    <div class="form-group">
+                        <label for="startDate"><i class="fas fa-calendar-plus"></i> Fecha de ingreso</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate"><i class="fas fa-calendar-minus"></i> Fecha de salida</label>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="salary"><i class="fas fa-money-bill-wave"></i> Salario diario (MXN)</label>
+                    <input type="number" id="salary" placeholder="Ingrese el salario diario" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pendingDays"><i class="fas fa-coins"></i> Días de salario pendientes</label>
+                    <input type="number" id="pendingDays" placeholder="Días de salario no pagados" min="0" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="vacationDays"><i class="fas fa-umbrella-beach"></i> Días de vacaciones pendientes</label>
+                    <input type="number" id="vacationDays" placeholder="Días no disfrutados" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-exclamation-circle"></i> Motivo de terminación laboral</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="termination1" name="termination" value="voluntary" checked>
+                            <label for="termination1">Renuncia voluntaria</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="termination2" name="termination" value="dismissal">
+                            <label for="termination2">Despido</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bonus"><i class="fas fa-gift"></i> Bono anual (aguinaldo) proporcional (días)</label>
+                    <input type="number" id="bonus" placeholder="Días de aguinaldo" min="0" value="15">
+                </div>
+                
+                <div class="wage-info">
+                    <i class="fas fa-info-circle"></i> 
+                    <strong>Salario mínimo vigente:</strong> $248.93 MXN (valor base para cálculo de prima de antigüedad)
+                </div>
+                
+                <button class="btn-calculate" id="calculateBtn">
+                    <i class="fas fa-calculator"></i> Calcular Finiquito/Liquidación
+                </button>
+            </section>
+            
+            <section class="results-section">
+                <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Resultados del Cálculo</h2>
+                
+                <div class="time-worked">
+                    <div id="timeResult">Ingrese las fechas para calcular tiempo trabajado</div>
+                </div>
+                
+                <div id="resultsContainer">
+                    <p class="highlight" style="text-align: center; padding: 20px;">
+                        <i class="fas fa-info-circle"></i> Complete el formulario y haga clic en "Calcular" para ver los resultados
+                    </p>
+                </div>
+                
+                <div id="detailsContainer" style="display: none;">
+                    <h3><i class="fas fa-calculator"></i> Detalles del Cálculo</h3>
+                    <div class="calculation-details" id="calculationDetails">
+                        <!-- Details will be inserted here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div class="disclaimer">
+            <h3><i class="fas fa-exclamation-triangle"></i> Importante</h3>
+            <p>Esta calculadora proporciona una estimación basada en la Ley Federal del Trabajo de México. Los resultados pueden variar dependiendo de circunstancias específicas de cada caso. Para un cálculo exacto y asesoría legal personalizada, recomendamos consultar con un profesional en derecho laboral.</p>
+            <p>Los conceptos incluidos son: salarios pendientes, vacaciones no disfrutadas, prima vacacional (25%), aguinaldo proporcional, prima de antigüedad (12 días por año con tope de 2 salarios mínimos) e indemnización constitucional (en caso de despido injustificado).</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
