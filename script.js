@@ -1,7 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const calculateBtn = document.getElementById('calculateBtn');
+document.addEventListener('DOMContentLoaded', function() {    const calculateBtn = document.getElementById('calculateBtn');
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
+    const vacationDaysInput = document.getElementById('vacationDays');
+    const vacationInfo = document.getElementById('vacationInfo');
+    const vacationMessage = document.getElementById('vacationMessage');
     const timeResult = document.getElementById('timeResult');
     const resultsContainer = document.getElementById('resultsContainer');
     const detailsContainer = document.getElementById('detailsContainer');
@@ -14,23 +16,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(today.getFullYear() - 1);
     startDateInput.valueAsDate = oneYearAgo;
-    
-    // Update time worked when dates change
+      // Update time worked when dates change
     startDateInput.addEventListener('change', updateTimeWorked);
     endDateInput.addEventListener('change', updateTimeWorked);
+    
+    // Hide vacation info when user manually changes vacation days
+    vacationDaysInput.addEventListener('input', function() {
+        if (this.value && this.value !== '0') {
+            vacationInfo.style.display = 'none';
+        }
+    });
     
     // Initial update
     updateTimeWorked();
     
     calculateBtn.addEventListener('click', calculateSettlement);
-    
-    function updateTimeWorked() {
+      function updateTimeWorked() {
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
         
         if (startDate && endDate && startDate < endDate) {
             const diffTime = Math.abs(endDate - startDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const totalYears = diffDays / 365;
             
             const years = Math.floor(diffDays / 365);
             const months = Math.floor((diffDays % 365) / 30);
@@ -43,8 +51,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${days} día${days !== 1 ? 's' : ''}
                 <br><span style="font-size: 0.9em;">(${diffDays} días totales)</span>
             `;
+            
+            // Calcular días de vacaciones proporcionales si tiene menos de un año
+            updateVacationDays(totalYears, months, years);
         } else {
             timeResult.textContent = 'Ingrese fechas válidas (fecha de ingreso anterior a fecha de salida)';
+            vacationInfo.style.display = 'none';
+        }
+    }
+    
+    function updateVacationDays(totalYears, months, years) {
+        // Si tiene menos de un año, calcular días proporcionales automáticamente
+        if (totalYears < 1) {
+            const proportionalVacationDays = Math.floor(months); // 1 día por mes trabajado (aproximación básica)
+            vacationDaysInput.value = proportionalVacationDays;
+            
+            vacationMessage.textContent = `Calculado automáticamente: ${proportionalVacationDays} días (${months} meses trabajados). Al no completar un año, no pudo disfrutar sus vacaciones.`;
+            vacationInfo.style.display = 'block';
+        } else {
+            // Si tiene un año o más, no calcular automáticamente pero mostrar información
+            if (vacationDaysInput.value === '' || vacationDaysInput.value === '0') {
+                const estimatedVacationDays = years * 12; // Estimación básica: 12 días por año
+                vacationMessage.textContent = `Sugerencia: Con ${years} año${years !== 1 ? 's' : ''} de servicio, podría tener aproximadamente ${estimatedVacationDays} días de vacaciones anuales acumuladas.`;
+                vacationInfo.style.display = 'block';
+            } else {
+                vacationInfo.style.display = 'none';
+            }
         }
     }
     

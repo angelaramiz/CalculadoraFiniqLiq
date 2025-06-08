@@ -9,6 +9,7 @@ Una aplicación web para calcular finiquitos y liquidaciones laborales según la
 - ✅ **Validación de datos** en tiempo real
 - ✅ **Detalles expandibles** del cálculo
 - ✅ **Cumple con la normativa mexicana**
+- ✅ **Cálculo automático** de vacaciones proporcionales
 
 ## 📁 Estructura del Proyecto
 
@@ -59,6 +60,7 @@ CalculadoraFiniqLiq/
 - ✅ Salario diario positivo
 - ✅ Días no negativos
 - ✅ Cálculo automático del tiempo trabajado
+- ✅ **Cálculo automático de vacaciones proporcionales** (empleados con menos de 1 año)
 
 ## 🔧 Características Técnicas
 
@@ -118,6 +120,16 @@ Esta calculadora proporciona estimaciones basadas en la normativa laboral mexica
   - 1.5 años: 90 + 20 + 10 = 120 días
   - 2.25 años: 90 + 40 + 5 = 135 días
 - **Impacto**: Cálculo correcto desde el primer año completado.
+
+### Cálculo Automático de Vacaciones ✅
+- **Fecha**: Junio 2025
+- **Funcionalidad**: Se implementó el cálculo automático de días de vacaciones proporcionales para empleados con **menos de un año de servicio**.
+- **Lógica**: 1 día de vacaciones por cada mes trabajado (aproximadamente)
+- **Ejemplos**: 
+  - 6 meses: 6 días de vacaciones automáticos
+  - 10 meses: 10 días de vacaciones automáticos
+- **Justificación**: Al no completar el año, el empleado no pudo disfrutar sus vacaciones anuales
+- **Impacto**: Elimina errores de cálculo y asegura que se paguen las vacaciones proporcionales correctas.
 
 ---
 
